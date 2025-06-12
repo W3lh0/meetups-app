@@ -12,14 +12,14 @@ export default async function HomePage() {
   try {
     client = await MongoClient.connect(process.env.MONGODB_URL);
     const db = client.db();
-    const meetupsCollection = db.collection.apply('meetups');
+    const meetupsCollection = db.collection('meetups');
     const meetups = await meetupsCollection.find().toArray();
 
     client.close();
 
     const trasformedMeetups = meetups.map(meetup => ({
       title: meetup.title,
-      address: meetup.adress,
+      address: meetup.address,
       image: meetup.image,
       description: meetup.description,
       id: meetup._id.toString(),
