@@ -2,7 +2,7 @@
 // This file renders the details page for a single meetup in the App Router enviroment.
 // The original Page Router equivalent was pages/[meetupId]/index.js
 
-import MeetupDetail from '../components/meetups/MeetupDetail.js';
+import MeetupDetail from '@/components/meetups/MeetupDetail.js';
 
 export async function generateStaticParams() {
     

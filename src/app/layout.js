@@ -3,7 +3,7 @@
 // It wraps the entire application and defines its basic structures (html, body).
 // The original Pages Router equivalent functionality was from pages/_app.js and pages/_document.js.
 
-import MainLayout from "./components/layout/MainLayout";
+import MainLayout from "@/components/layout/MainLayout";
 import "./globals.css";
 
 export const metadata = {

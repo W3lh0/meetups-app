@@ -3,8 +3,8 @@
 // our-domain.com/
 // no need for React import..
 
-import { connectToDatabase, getAllDocuments} from './helpers/db-utils.js'; 
-import MeetupList from './components/meetups/MeetupList';
+import { connectToDatabase, getAllDocuments} from '@/helpers/db-utils.js'; 
+import MeetupList from '@/components/meetups/MeetupList.js';
 
 export default async function HomePage() {
   let client;

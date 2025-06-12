@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectToDatabase, insertDocument } from "../../helpers/db-utils.js";    
+import { connectToDatabase, insertDocument } from "@/helpers/db-utils.js";    
 // This file is created according to App Router conventions.
 // In the original Page Router assignment, the corresponding API rout would have been located at:
 // /src/pages/api/new-meetup.js and it would have used a single 'handler' function.

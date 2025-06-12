@@ -1,7 +1,13 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
+      "@/helpers/*": ["./src/helpers/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/lib/*": [".src/lib/*"],
       "@/*": ["./src/*"]
     }
-  }
+  },
+  "include": ["next-env.d.ts", "**/*.js", "**/*.jsx"],
+  "exclude": ["node_modules"]
 }

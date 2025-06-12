@@ -6,7 +6,7 @@
 // Path corrected to match component placement in src/app/components/ folder.
 "use client";
 
-import NewMeetupForm from '../components/meetups/NewMeetupForm';
+import NewMeetupForm from '@/components/meetups/NewMeetupForm';
 import { useRouter } from 'next/navigation';
 
 function NewMeetupPage() {
