@@ -3,29 +3,41 @@
 // our-domain.com/
 // no need for React import..
 
+import { MongoClient } from 'mongodb';
 import MeetupList from './components/meetups/MeetupList';
 
-const DUMMY_MEETUPS = [
-  {
-    id: 'm1',
-    title: 'First Meetup: Vaasankatu',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/8/88/Vaasan_ammattikorkeakoulu_2018.jpg',
-    address: 'Vaasankatu, Vaasa',
-    description: 'This is a first meetup! Picture: Maritime Museum of Finland, CC BY-SA 4.0',
-  },
-  {
-    id: 'm2',
-    title: 'Second Meetup: VAMK',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/8/88/Vaasan_ammattikorkeakoulu_2018.jpg',
-    address: 'Wolffintie 30, Vaasa',
-    description: 'This is a second meetup! Picture: Santeri Viinamäki, 2018m CC BY-SA 4.0',
-  },
-];
-
 export default async function HomePage() {
-  const meetups = DUMMY_MEETUPS;
+  let client;
 
-  return (
-    <MeetupList meetups={meetups} />
-  );
+  try {
+    client = await MongoClient.connect(process.env.MONGODB_URL);
+    const db = client.db();
+    const meetupsCollection = db.collection.apply('meetups');
+    const meetups = await meetupsCollection.find().toArray();
+
+    client.close();
+
+    const trasformedMeetups = meetups.map(meetup => ({
+      title: meetup.title,
+      address: meetup.adress,
+      image: meetup.image,
+      description: meetup.description,
+      id: meetup._id.toString(),
+    }));
+
+    return <MeetupList meetups={trasformedMeetups} />;
+
+  } catch (error) {
+    console.error('Failed to fetch meetups from database:', error);
+    if (client) {
+      client.close();
+    }
+    return (
+      <>
+        <h1>Error fetching data</h1>
+        <p>Could not fetch meetups from the database.</p>
+        <MeetupList meetups={[]} />
+      </>
+    );
+  }
 }
