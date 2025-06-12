@@ -1,6 +1,5 @@
-import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
-
+import { connectToDatabase, insertDocument } from "../../helpers/db-utils.js";    
 // This file is created according to App Router conventions.
 // In the original Page Router assignment, the corresponding API rout would have been located at:
 // /src/pages/api/new-meetup.js and it would have used a single 'handler' function.
@@ -11,22 +10,24 @@ export async function POST(request) {
     try {
         const data = await request.json();
 
-        console.log('Recived data:', data);
+        if (!data.title || !data.address || !data.description || !data.image) {
+            return NextResponse.json(
+                { message: 'Invalid input. Please fill all required fields' },
+                { status: 422 }
+            );
+        }
 
-        client = await MongoClient.connect(
-            process.env.MONGODB_URL
-        );
+        console.log('Received data:', data);
 
-        const db = client.db();
+        const { client: mongoClient, db } = await connectToDatabase();
+        client = mongoClient;
 
-        const meetupsCollection = db.collection('meetups');
-
-        const result = await meetupsCollection.insertOne(data);
+        const result = await insertDocument(client, 'meetups', data);
 
         console.log('Inserted document ID:', result.insertedId);
 
         return NextResponse.json(
-            { message: 'Meetup added successfully', recivedData: data },
+            { message: 'Meetup added successfully', recivedData: data, insertedId: result.insertedId },
             { status: 201}
         );
     } catch (error) {
@@ -35,11 +36,6 @@ export async function POST(request) {
             { message: 'Failed to add meetup.', error: error.message },
             { status: 500 }
         );
-    } finally {
-        if (client) {
-            await client.close();
-            console.log('MongoDB client close.');
-        }
     }
 }
 
