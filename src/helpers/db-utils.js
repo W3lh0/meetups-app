@@ -1,37 +1,32 @@
-// src/helpers/db-utils.js
 import { MongoClient } from "mongodb";
 
 const MONGODB_URL = process.env.MONGODB_URL;
 const MONGODB_DB_NAME = process.env.MONGODB_DB_NAME;
 
 if (!MONGODB_URL) {
-    throw new Error('Please define the MONGODB_URL enviroment veriable inside .env.local');
+    throw new Error('Please define the MONGODB_URL environment variable inside .env.local');
 }
 
 if (!MONGODB_DB_NAME) {
-    throw new Error('Please define the MONGODB_DB_NAME');
+    throw new Error('Please define the MONGODB_DB_NAME environment variable');
 }
 
 let cachedClient = null;
-let cachedDb = null;
 
 export async function connectToDatabase() {
-    if (cachedClient && cachedDb) {
+    if (cachedClient) {
         console.log('Using cached database connection.');
-        return { client: cachedClient, db: cachedDb };
+        return cachedClient;
     }
 
-    console.log('Using cached database connection.');
+    console.log('Connecting to new database connection.');
 
     try {
         const client = await MongoClient.connect(MONGODB_URL);
-        const db = client.db(MONGODB_DB_NAME);
-
         cachedClient = client;
-        cachedDb = db;
 
         console.log('Successfully connected to MongoDB.');
-        return { client, db };
+        return client;
     } catch (error) {
         console.error('Failed to connect to MongoDB:', error);
         throw new Error('Failed to connect to database');
@@ -57,6 +52,17 @@ export async function getAllDocuments(client, collection, sort, filter = {}) {
         return document;
     } catch (error) {
         console.error(`Failed to fetch documents from ${collection}:`, error);
+        throw new Error('Failed to fetch data.');
+    }
+}
+
+export async function getOneDocument(client, collection, filter = {}) {
+    try {
+        const db = client.db(MONGODB_DB_NAME);
+        const document = await db.collection(collection).findOne(filter);
+        return document;
+    } catch (error) {
+        console.error(`Failed to fetch document from ${collection}:`, error);
         throw new Error('Failed to fetch data.');
     }
 }
