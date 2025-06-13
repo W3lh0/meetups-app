@@ -12,8 +12,7 @@ export default async function HomePage() {
   let error = null;
 
   try {
-    const { client: mongoClient} = await connectToDatabase();
-    client = mongoClient;
+    client = await connectToDatabase();
     const fetchMeetups = await getAllDocuments(client, 'meetups', { _id: -1 });
     
     const trasformedMeetups = fetchMeetups.map(meetup => ({
@@ -28,7 +27,7 @@ export default async function HomePage() {
     meetups = trasformedMeetups;
 
   } catch (err) {
-    console.error('Failed to fetch meetups from database:', error);
+    console.error('Failed to fetch meetups from database:', err);
     error = err.message;  
   }
 

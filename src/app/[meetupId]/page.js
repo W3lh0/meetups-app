@@ -3,7 +3,7 @@
 // The original Page Router equivalent was pages/[meetupId]/index.js
 
 import { ObjectId } from 'mongodb';
-import { connectToDatabase, getOneDocument, getAllDocuments } from '@/helpers/db-utils';
+import { connectToDatabase, getOneDocument, getAllDocuments } from '@/helpers/db-utils.js';
 import MeetupDetail from '@/components/meetups/MeetupDetail.js';
 
 export async function generateStaticParams() {
@@ -19,30 +19,26 @@ export async function generateStaticParams() {
     } catch (error) {
         console.error('Failed to generate static params:', error);
         return [];
-    } finally {
-        if (client) {
-            client.close();
-        }
     }
 }
 
 async function MeetupDetails({ params }) {
-    const meetupId = params.meetupId;
+    const meetupId = await params.meetupId;
     let client;
     let selectedMeetup;
+
+    if (!ObjectId.isValid(meetupId)) {
+        return <p className="text-red-600 text-center py-8">Error: Invalid meetup ID provider.</p>;
+    }
 
     try {
         client = await connectToDatabase();
         const meetupObjectId = new ObjectId(meetupId);
-        selectedMeetup = await getOneDocument(client, 'meetups', { _id: meetupObjectId}); 
+        selectedMeetup = await getOneDocument(client, 'meetups', { _id: meetupObjectId});
     } catch (error) {
         console.error('Failed to fetch meetup details:', error);
         return <p className='text-red-600 text-center py-8'>Error: Failed to download meetup details</p>;
-    } finally {
-        if (client) {
-            client.close();
-        }
-    }
+    } 
 
     if (!selectedMeetup) {
         return <p className='text-center py-8 text-xl font-semibold'>Can't find meetup</p>
