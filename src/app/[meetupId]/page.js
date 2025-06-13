@@ -2,39 +2,66 @@
 // This file renders the details page for a single meetup in the App Router enviroment.
 // The original Page Router equivalent was pages/[meetupId]/index.js
 
+import { ObjectId } from 'mongodb';
+import { connectToDatabase, getOneDocument, getAllDocuments } from '@/helpers/db-utils';
 import MeetupDetail from '@/components/meetups/MeetupDetail.js';
 
 export async function generateStaticParams() {
-    
-    const meetups = [
-        {id: 'm1'},
-        {id: 'm2'},
-    ];
+    let client;
 
-    return meetups.map(meetup => ({
-        meetupId: meetup.id,
-    }));
+    try {
+        client = await connectToDatabase();
+        const meetups = await getAllDocuments(client, 'meetups', { _id: 1});
+
+        return meetups.map(meetup => ({
+            meetupId: meetup._id.toString(),
+        }));
+    } catch (error) {
+        console.error('Failed to generate static params:', error);
+        return [];
+    } finally {
+        if (client) {
+            client.close();
+        }
+    }
 }
 
 async function MeetupDetails({ params }) {
     const meetupId = params.meetupId;
+    let client;
+    let selectedMeetup;
 
-    console.log('Fetching data for meetupId:', meetupId);
+    try {
+        client = await connectToDatabase();
+        const meetupObjectId = new ObjectId(meetupId);
+        selectedMeetup = await getOneDocument(client, 'meetups', { _id: meetupObjectId}); 
+    } catch (error) {
+        console.error('Failed to fetch meetup details:', error);
+        return <p className='text-red-600 text-center py-8'>Error: Failed to download meetup details</p>;
+    } finally {
+        if (client) {
+            client.close();
+        }
+    }
 
-    const meetupData = {
-        image: 'https://upload.wikimedia.org/wikipedia/commons/8/88/Vaasan_ammattikorkeakoulu_2018.jpg',
-        id: meetupId,
-        title: `TEMP PLACEHOLDER: Meetup ${meetupId}`,
-        address: 'TEMP PLACEHOLDER: Some Street 5, Some City',
-        description: 'TEMP PLACEHOLDER: This is a meetup for coding enthusiasts.',
+    if (!selectedMeetup) {
+        return <p className='text-center py-8 text-xl font-semibold'>Can't find meetup</p>
+    }
+
+    const transformedMeetupData = {
+        id: selectedMeetup._id.toString(),
+        title: selectedMeetup.title,
+        address: selectedMeetup.address,
+        image: selectedMeetup.image,
+        description: selectedMeetup.description,
     };
 
     return (
         <MeetupDetail
-            image={meetupData.image}
-            title={meetupData.title}
-            address={meetupData.address}
-            description={meetupData.description}
+            title={transformedMeetupData.title}
+            image={transformedMeetupData.image}
+            address={transformedMeetupData.address}
+            description={transformedMeetupData.description}
         />
     );
 }

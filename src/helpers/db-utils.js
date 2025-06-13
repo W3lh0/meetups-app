@@ -60,3 +60,9 @@ export async function getAllDocuments(client, collection, sort, filter = {}) {
         throw new Error('Failed to fetch data.');
     }
 }
+
+export async function getOneDocument(client, collectionName, filter = {}) {
+    const db = client.db(MONGODB_DB_NAME);
+    const document = await db.collection(collectionName).findOne(filter);
+    return document;
+}
