@@ -41,7 +41,7 @@ async function MeetupDetails({ params }) {
     } 
 
     if (!selectedMeetup) {
-        return <p className='text-center py-8 text-xl font-semibold'>Can't find meetup</p>
+        return <p className='text-center py-8 text-xl font-semibold'>Can&apos;t find meetup</p>
     }
 
     const transformedMeetupData = {
