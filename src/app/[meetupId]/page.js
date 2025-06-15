@@ -24,12 +24,12 @@ export async function generateStaticParams() {
 
 async function MeetupDetails({ params }) {
     const meetupId = params.meetupId;
-    
+    let client;
+    let selectedMeetup;
+
     if (!ObjectId.isValid(meetupId)) {
         return <p className="text-red-600 text-center py-8">Error: Invalid meetup ID provider.</p>;
     }
-
-    
 
     try {
         client = await connectToDatabase();
