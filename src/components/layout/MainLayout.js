@@ -1,12 +1,12 @@
 "use client";
 import MainNavigation from './MainNavigation';
-import styles from './MainLayout.module.css'
+import classes from './MainLayout.module.css'
 
 function MainLayout(props) {
   return (
-    <div className={styles.container}>
+    <div className={classes.container}>
       <MainNavigation />
-      <main className={styles.main}>
+      <main className={classes.main}>
         {props.children}
       </main>
     </div>

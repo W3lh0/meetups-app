@@ -13,24 +13,22 @@ function MeetupItem(props) {
   }
 
   return (
-    <li className='my-4 mx-0'>
+    <li className={classes.item}>
       <Card>
-        <div className='w-full h-80 overflow-hidden rounded-t1-md rounded-tr-md'>
+        <div className={classes.image}>
           <img 
             src={props.image}
             alt={props.title}
-            className='w-full h-full object-cover' 
           />
         </div>
-        <div className='text-center p-4'>
-          <h3 className='text-xl text=[#2c292b]'>{props.title}</h3>
+        <div className={classes.content}>
+          <h3>{props.title}</h3>
           <address>{props.address}</address>
           <p>{props.description}</p>
         </div>
-        <div className='p-6 text-center'>
+        <div className={classes.actions}>
           <button
             onClick={showDetailsHandler}
-            className='cursor-pointer font-inherit text-[#77002e] border border-solid border-[#77002e] bg-trasparent py-2 px-6 rounded gover:text-white hover:bg-[#ffe2ed]'
           >
             Show Details
           </button>

@@ -1,22 +1,22 @@
 "use client";
 import Link from 'next/link';
-import styles from './MainNavigation.module.css';
+import classes from './MainNavigation.module.css';
 
 function MainNavigation() {
   return (
-    <header className={styles.header}>
-      <div className={styles.logo}>
+    <header className={classes.header}>
+      <div className={classes.logo}>
         Meetups!
       </div>
       <nav>
-        <ul className={styles.ul}>
+        <ul className={classes.ul}>
           <li>
-            <Link href='/' className={styles.link}>
+            <Link href='/' className={classes.link}>
               All Meetups
             </Link>
           </li>
           <li>
-            <Link href='/new-meetup' className={styles.link}>
+            <Link href='/new-meetup' className={classes.link}>
               Add New Meetup
             </Link>
           </li>

@@ -1,7 +1,7 @@
+import classes from './Card.module.css'
+
 function Card(props) {
-  return <div className='bg-white rounded-md shadow-md'>
-    {props.children}
-  </div>;
+  return <div className={classes.card}>{props.children}</div>;
 }
 
 export default Card;
