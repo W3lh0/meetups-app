@@ -5,14 +5,14 @@
 
 import { connectToDatabase, getAllDocuments} from '@/helpers/db-utils.js'; 
 import MeetupList from '@/components/meetups/MeetupList.js';
+import classes from './page.module.css';
 
 export default async function HomePage() {
-  let client;
   let meetups = [];
   let error = null;
 
   try {
-    client = await connectToDatabase();
+    const client = await connectToDatabase();
     const fetchMeetups = await getAllDocuments(client, 'meetups', { _id: -1 });
     
     const trasformedMeetups = fetchMeetups.map(meetup => ({
@@ -33,13 +33,12 @@ export default async function HomePage() {
 
   if (error) {
     return (
-      <div className='flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4'>
-        <h1 className='text-2x1 font-bold text-red-600 mb-4'>Error</h1>
-        <p className='text-gray-700'>{error}</p>
-        <p className='text-gray-500 mt-2'>Please check your database connection and try again</p>
+      <div className={classes.errorContainer}>
+        <h1 className={classes.errorTitle}>Error</h1>
+        <p className={classes.errorMessage}>Please check your database connection and try again</p>
       </div>
     );
   }
 
-  return <MeetupList meetups={meetups} />
+  return <div className={classes.page}><MeetupList meetups={meetups} /></div>
 }
