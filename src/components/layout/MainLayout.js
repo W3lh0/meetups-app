@@ -1,11 +1,12 @@
 "use client";
 import MainNavigation from './MainNavigation';
+import classes from './MainLayout.module.css'
 
 function MainLayout(props) {
   return (
-    <div className='min-h-screen flex flex-col items-center'>
+    <div className={classes.container}>
       <MainNavigation />
-      <main className='w-11/12 max-w-[40rem] my-12 mx-auto flex-grow'>
+      <main className={classes.main}>
         {props.children}
       </main>
     </div>

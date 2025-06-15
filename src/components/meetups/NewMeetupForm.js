@@ -1,7 +1,7 @@
 "use client"
 import { useRef } from 'react';
-import InputControl from '../ui/InputControl';
 import Card from '../ui/Card';
+import classes from './NewMeetupForm.module.css'
 
 function NewMeetupForm(props) {
   const titleInputRef = useRef();
@@ -29,41 +29,30 @@ function NewMeetupForm(props) {
 
   return (
     <Card>
-      <form className='p-4' onSubmit={submitHandler}>
-        <InputControl
-          label="Meetup Title"
-          type="text"
-          id="title"
-          inputRef={titleInputRef}
-          required
-        />
-        <InputControl
-          label="Meetup Image"
-          type="url"
-          id="image"
-          inputRef={imageInputRef}
-          required
-        />
-        <InputControl
-          label="Address"
-          type="text"
-          id="address"
-          inputRef={addressInputRef}
-          required
-        />
-        <InputControl
-          label="Description"
-          type="textarea"
-          id="description"
-          inputRef={descriptionInputRef}
-          required
-          rows="5"
-        />
-
-        <div className='mt-4 text-right'>
-          <button className='cursor-pointer font-inherit bg-[#77002e] text-white py-2 px-6 border border-solid border-[#77002e] rounded font-bold hover:bg-[#a50e48] hover:border-[#a50e48]'>
-            Add Meetup
-          </button>
+          <form className={classes.form} onSubmit={submitHandler}>
+        <div className={classes.control}>
+          <label htmlFor='title'>Meetup Title</label>
+          <input type='text' required id='title' ref={titleInputRef} />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor='image'>Meetup Image</label>
+          <input type='url' required id='image' ref={imageInputRef} />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor='address'>Address</label>
+          <input type='text' required id='address' ref={addressInputRef} />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor='description'>Description</label>
+          <textarea
+            id='description'
+            required
+            rows='5'
+            ref={descriptionInputRef}
+          ></textarea>
+        </div>
+        <div className={classes.actions}>
+          <button>Add Meetup</button>
         </div>
       </form>
     </Card>

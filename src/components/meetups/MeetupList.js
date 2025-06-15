@@ -3,7 +3,7 @@ import classes from './MeetupList.module.css';
 
 function MeetupList(props) {
   return (
-    <ul className='list-none m-0 p-0 flex flex-col'>
+    <ul className={classes.list}>
       {props.meetups.map((meetup) => (
         <MeetupItem
           key={meetup.id}
