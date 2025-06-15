@@ -4,11 +4,9 @@ import classes from './MainLayout.module.css'
 
 function MainLayout(props) {
   return (
-    <div className={classes.container}>
+    <div>
       <MainNavigation />
-      <main className={classes.main}>
-        {props.children}
-      </main>
+      <main className={classes.main}>{props.children}</main>
     </div>
   );
 }

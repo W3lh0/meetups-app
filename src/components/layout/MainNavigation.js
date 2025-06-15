@@ -9,14 +9,14 @@ function MainNavigation() {
         Meetups!
       </div>
       <nav>
-        <ul className={classes.ul}>
+        <ul>
           <li>
-            <Link href='/' className={classes.link}>
+            <Link href='/'>
               All Meetups
             </Link>
           </li>
           <li>
-            <Link href='/new-meetup' className={classes.link}>
+            <Link href='/new-meetup'>
               Add New Meetup
             </Link>
           </li>

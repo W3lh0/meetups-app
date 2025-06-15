@@ -40,5 +40,5 @@ export default async function HomePage() {
     );
   }
 
-  return <div className={classes.page}><MeetupList meetups={meetups} /></div>
+  return <MeetupList meetups={meetups} />
 }
