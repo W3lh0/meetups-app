@@ -7,6 +7,7 @@ import { connectToDatabase, getAllDocuments} from '@/helpers/db-utils.js';
 import MeetupList from '@/components/meetups/MeetupList.js';
 import classes from './page.module.css';
 import { auth0 } from '@/lib/auth0';
+import Link from 'next/link';
 
 export default async function HomePage() {
   let meetups = [];
@@ -48,7 +49,7 @@ export default async function HomePage() {
           <h2 className={classes.welcomeMessage}>Welcome, {session.user.name}!</h2>
           <p className={classes.loggedInStatus}>You are logged in. You can now use the application!</p>
           <div className={classes.actions}>
-            <a href="/auth/logout" className={classes.linkButton}>Logout</a>
+            <Link href="/auth/logout" className={classes.linkButton}>Logout</Link>
           </div>
           {meetups.length > 0 ? (
             <MeetupList meetups={meetups} />
@@ -59,7 +60,7 @@ export default async function HomePage() {
       ) : (
         <div className={classes.loginPrompt}>
           <p>Log in to use the application and see the Meetup events.</p>
-          <a href='/auth/login' className={classes.linkButton}>Log in</a>
+          <Link href='/auth/login' className={classes.linkButton}>Log in</Link>
         </div>
       )} 
 
