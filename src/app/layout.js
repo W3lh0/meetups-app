@@ -4,6 +4,7 @@
 // The original Pages Router equivalent functionality was from pages/_app.js and pages/_document.js.
 
 import MainLayout from "@/components/layout/MainLayout";
+import { UseProvider } from "@auth0/nextjs-auth0";
 import "./globals.css";
 
 export const metadata = {
