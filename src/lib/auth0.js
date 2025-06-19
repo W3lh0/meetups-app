@@ -2,7 +2,7 @@ import { Auth0Client } from '@auth0/nextjs-auth0/server';
 
 const ensureProtocol = (url) => {
     if (!url) return 'http://localhost:3000';
-    return url.startsWith('http://') || url.startsWith('httpx://') ? url : `https://${url}`;
+    return url.startsWith('http://') || url.startsWith('https://') ? url : `https://${url}`;
 }
 
 const baseURL = ensureProtocol(process.env.APP_BASE_URL) || (process.env.VERCEL_URL || 'https://localhost:3000');
