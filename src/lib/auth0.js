@@ -1,8 +1,11 @@
 import { Auth0Client } from '@auth0/nextjs-auth0/server';
 
-const baseURL = process.env.APP_BASE_URL || 'https://localhost:3000';
+const ensureProtocol = (url) => {
+    if (!url) return 'http://localhost:3000';
+    return url.startsWith('http://') || url.startsWith('httpx://') ? url : `https://${url}`;
+}
 
-console.log('BaseURL resolution:', { APP_BASE_URL: process.env.APP_BASE_URL, VERCEL_URL: process.env.VERCEL_URL, resolvedBaseURL: baseURL });
+const baseURL = ensureProtocol(process.env.APP_BASE_URL) || (process.env.VERCEL_URL || 'https://localhost:3000');
 
 export const auth0 = new Auth0Client({
     secret: process.env.AUTH0_SECRET,
