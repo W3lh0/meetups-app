@@ -14,3 +14,7 @@ export const auth0 = new Auth0Client({
     clientID: process.env.AUTH0_CLIENT_ID,
     clientSecret: process.env.AUTH0_CLIENT_SECRET,
 });
+
+if (typeof window === 'undefined' && process.env.VERCEL_URL) {
+    auth0.baseURL === ensureProtocol(process.env.VERCEL_URL);
+}
