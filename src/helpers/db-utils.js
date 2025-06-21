@@ -12,21 +12,25 @@ if (!MONGODB_DB_NAME) {
 }
 
 let cachedClient = null;
+let cachedDb = null;
 
 export async function connectToDatabase() {
-    if (cachedClient) {
+    if (cachedClient && cachedDb) {
         console.log('Using cached database connection.');
-        return cachedClient;
+        return {client: cachedClient, db: cachedDb};
     }
 
     console.log('Connecting to new database connection.');
 
     try {
         const client = await MongoClient.connect(MONGODB_URL);
+        const db = client.db(MONGODB_DB_NAME);
+
         cachedClient = client;
+        cachedDb = db;
 
         console.log('Successfully connected to MongoDB.');
-        return client;
+        return {client, db};
     } catch (error) {
         console.error('Failed to connect to MongoDB:', error);
         throw new Error('Failed to connect to database');

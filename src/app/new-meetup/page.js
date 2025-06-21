@@ -15,7 +15,7 @@ function NewMeetupPage() {
   async function addMeetupHandler(enteredMeetupData) {
     console.log('Received data from form:', enteredMeetupData);
 
-    const response = await fetch('/api/new-meetups', {
+    const response = await fetch('/api/new-meetup', {
       method: 'POST',
       body: JSON.stringify(enteredMeetupData),
       headers: {

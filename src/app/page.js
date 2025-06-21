@@ -13,6 +13,7 @@ export default async function HomePage() {
   let meetups = [];
   let error = null;
   let session = null;
+  let client = null;
 
   try {
     session = await auth0.getSession();
@@ -20,7 +21,8 @@ export default async function HomePage() {
     console.log(session);
 
     if (user) {
-      const client = await connectToDatabase();
+      const dbConnection = await connectToDatabase();
+      client = dbConnection.client;
       const fetchMeetups = await getAllDocuments(client, 'meetups', { _id: -1 });
       
       const transformedMeetups = fetchMeetups.map(meetup => ({
